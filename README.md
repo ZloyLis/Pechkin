@@ -1,7 +1,10 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+
+<p align="center"><img src ="https://user-images.githubusercontent.com/43984046/160493659-32ea4cbc-4412-4c13-a67c-722c393b3775.png"></p>
 
 
-# Криптоанализатор 🔑
+
+ # <p align="center">  Криптоанализатор 🔑  </p>
 
 #### Итоговый проект.
 
