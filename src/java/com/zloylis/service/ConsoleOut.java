@@ -13,27 +13,30 @@ public class ConsoleOut {
         String name = map.get("USERNAME");
 
         // вывод в консоли
-        System.out.print("Загрузка системы...");
-        //pauseOut(1500);
-        System.out.print("\r");
-
-        System.out.print("Личность подтверждена...");
-        //pauseOut(1500);
-        System.out.print("\r");
+        String[] dot = {"▮▯▯▯▯▯", "▮▮▯▯▯▯", "▮▮▮▯▯▯", "▮▮▮▮▯▯", "▮▮▮▮▮▯", "▮▮▮▮▮▮"};
+        for (String s : dot) {
+            System.out.print("Загрузка системы " + s);
+            pauseOut(500);
+            System.out.print("\r");
+        }
+        pauseOut(500);
 
         System.out.println("Добро пожаловать в систему, " + name + ".");
-        //pauseOut(800);
-
         System.out.println();
-        System.out.print("""               
-                Выберите тип операции:
-                1. Шифрование из консоли(в файл)
-                2. Шифрование файла
-                3. Дешифровка файла через ключ
-                4. Дешифровка файла через BruteForce
-                """);
-        System.out.println();
+        pauseOut(1000);
 
+        System.out.println("Выберите операцию:");
+        pauseOut(700);
+        System.out.println("1. Шифрование из консоли(в файл):");
+        pauseOut(200);
+        System.out.println("2. Шифрование файла");
+        pauseOut(200);
+        System.out.println("3. Дешифровка файла через ключ");
+        pauseOut(200);
+        System.out.println("4. Дешифровка файла через BruteForce");
+        pauseOut(200);
+        System.out.println();
+        pauseOut(200);
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Введите номер операции:");
@@ -62,7 +65,6 @@ public class ConsoleOut {
 
 
                 }
-                scanner.nextLine();
             } catch (Exception e) {
                 System.out.println("ОШИБКА! Введите числовое значение!");
             }

@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static com.zloylis.service.Algorithms.*;
@@ -19,12 +20,13 @@ public class CaesarCodec {
     private static String pathWriteFile; // путь к файлу для записи
     private static boolean registerLetters; // флаг игнорирования заглавных букв
     private static Algorithms algorithms;
+    //private static char[] alphabet = SelectAlphabet.getAlphabetLanguage();
 
 
     private static void caesarCodec(Algorithms type, int key, boolean registerLetters, String pathReadFile, String pathWriteFile) {
         char c;
         int index = 0;
-        int newIndex;
+        int newIndex = 0;
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(pathReadFile));
              FileWriter fileWriter = new FileWriter(pathWriteFile)) {
@@ -42,32 +44,31 @@ public class CaesarCodec {
                     }
                 }
 
+                    // кодируем или расшифровываем, зависит от флага
+                    if (type == ENCODE) {
+                        newIndex = (SelectAlphabet.getAlphabetLanguage().length + key + index) % SelectAlphabet.getAlphabetLanguage().length;
+                    } else if (type == DECODE_FOR_KEY) {
+                        newIndex = (SelectAlphabet.getAlphabetLanguage().length - key + index) % SelectAlphabet.getAlphabetLanguage().length;
+                    }
+                    String str = String.valueOf(SelectAlphabet.getAlphabetLanguage()[newIndex]);
 
-                // кодируем или расшифровываем, зависит от флага
-                if (type == ENCODE) {
-                    newIndex = (SelectAlphabet.getAlphabetLanguage().length + key + index) % SelectAlphabet.getAlphabetLanguage().length;
-                } else {
-                    newIndex = (SelectAlphabet.getAlphabetLanguage().length - key + index) % SelectAlphabet.getAlphabetLanguage().length;
+                    // если `toLowerCase = true` - всё пишем прописными буквами
+                    if (!registerLetters) {
+                        fileWriter.append(str.toLowerCase());
+                    } else {
+                        fileWriter.append(str);
+                    }
                 }
-                String str = String.valueOf(SelectAlphabet.getAlphabetLanguage()[newIndex]);
 
-                // если `toLowerCase = true` - всё пишем прописными буквами
-                if (!registerLetters) {
-                    fileWriter.append(str.toLowerCase());
-                } else {
-                    fileWriter.append(str);
-                }
+            } catch(IOException e){
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }
 
-    public static void setKey() {
-        System.out.println("* Введите ключ:");
-        System.out.print("> ");
-        try (Scanner scanner = new Scanner(System.in)) {
+        public static void setKey () {
+            System.out.println("* Введите ключ:");
+            System.out.print("> ");
+            Scanner scanner = new Scanner(System.in);
             try {
                 CaesarCodec.key = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
@@ -75,57 +76,55 @@ public class CaesarCodec {
                 System.out.println("---");
                 setKey();
             }
-
         }
-    }
 
-    public static void setPathWriteFile() {
-        System.out.println("* Введите путь к файлу для записи:");
-        System.out.print("> ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            Path temp = Path.of(scanner.nextLine());
+        public static void setPathWriteFile () {
+            System.out.println("* Введите путь к файлу для записи:");
+            System.out.print("> ");
+            Scanner scanner = new Scanner(System.in);
+            Path path = Path.of(scanner.nextLine());
             try {
-
-                if (Files.exists(temp)) {
-                    CaesarCodec.pathWriteFile = scanner.nextLine();
+                if (Files.exists(path)) {
+                    CaesarCodec.pathWriteFile = String.valueOf(path);
                 } else {
                     throw new Exception();
                 }
-                ;
             } catch (Exception e) {
                 System.out.println("Ошибка пути или создания файла!");
                 System.out.println("---");
                 setPathWriteFile();
             }
         }
-    }
 
-    public static void setPathReadFile() {
-        System.out.println("* Введите путь к файлу для чтения:");
-        System.out.print("> ");
-       try (Scanner scanner = new Scanner(System.in)) {
+        public static void setPathReadFile () {
+            System.out.println("* Введите путь к файлу для чтения:");
+            System.out.print("> ");
+            Scanner scanner = new Scanner(System.in);
+            Path path = Path.of(scanner.nextLine());
             try {
-                CaesarCodec.pathReadFile = scanner.nextLine();
-                throw new Exception();
+                if (Files.exists(path)) {
+                    CaesarCodec.pathReadFile = String.valueOf(path);
+                } else {
+                    throw new Exception();
+                }
             } catch (Exception e) {
                 System.out.println("ОШИБКА! Файл не найден!");
                 System.out.println("---");
                 setPathReadFile();
             }
-       }
-   }
+        }
 
-    public static boolean isRegisterLetters() {
-        System.out.println("""
-                * Учитывать регистр?"
-                1) Да
-                2) Нет
-                """);
-        System.out.print("> ");
+        public static boolean isRegisterLetters () {
+            System.out.println("""
+                    * Учитывать регистр?"
+                    1) Да
+                    2) Нет
+                    """);
+            System.out.print("> ");
 
 
-        boolean answer = true;
-        try (Scanner scanner = new Scanner(System.in)) {
+            boolean answer = true;
+            Scanner scanner = new Scanner(System.in);
             try {
                 int number = Integer.parseInt(scanner.nextLine());
                 switch (number) {
@@ -138,23 +137,21 @@ public class CaesarCodec {
                 System.out.println("---");
                 isRegisterLetters();
             }
+            return CaesarCodec.registerLetters = answer;
         }
-        return CaesarCodec.registerLetters = answer;
-    }
 
-    public static Algorithms algorithms() {
-        System.out.println("""
-                * Выберите тип операции:
-                1) Шифрование
-                2) Дешифровка
-                """);
-        System.out.println("> ");
+        public static Algorithms algorithms () {
+            System.out.println("""
+                    * Выберите тип операции:
+                    1) Шифрование
+                    2) Дешифровка
+                    """);
+            System.out.println("> ");
 
-        Algorithms algorithms = null;
-        try (Scanner scanner = new Scanner(System.in)) {
-            int number = Integer.parseInt(scanner.nextLine());
+            Algorithms algorithms = null;
+            Scanner scanner = new Scanner(System.in);
             try {
-                switch (number) {
+                switch (Integer.parseInt(scanner.nextLine())) {
                     case 1 -> algorithms = ENCODE;
                     case 2 -> algorithms = DECODE_FOR_KEY;
                     default -> throw new Exception();
@@ -163,37 +160,35 @@ public class CaesarCodec {
                 System.out.println("ОШИБКА! Выберите номер из списка!");
                 System.out.println("---");
                 algorithms();
+
             }
+            return CaesarCodec.algorithms = algorithms;
         }
-        return CaesarCodec.algorithms = algorithms;
+
+
+        public static String getPathWriteFile () {
+            return pathWriteFile;
+        }
+
+        public static int getKey () {
+            return key;
+        }
+
+        public static String getPathReadFile () {
+            return pathReadFile;
+        }
+
+        public static void caesarCodec (Algorithms type){
+            //algorithms(); // отключено, применено принудительное включение.
+            setKey();
+            setPathReadFile();
+            setPathWriteFile();
+            SelectAlphabet.setAlphabetLanguage();
+            caesarCodec(type, getKey(), isRegisterLetters(), getPathReadFile(), getPathWriteFile());
+        }
+
+        public static void main (String[]args){
+            SelectAlphabet.setAlphabetLanguage();
+            System.out.println(Arrays.toString(SelectAlphabet.getAlphabetLanguage()));
+        }
     }
-
-
-    public static String getPathWriteFile() {
-        return pathWriteFile;
-    }
-
-    public static int getKey() {
-        return key;
-    }
-
-    public static String getPathReadFile() {
-        return pathReadFile;
-    }
-
-    public static void caesarCodec(Algorithms type) {
-        //algorithms(); // отключено, применено принудительное включение.
-        setKey();
-        setPathReadFile();
-        setPathWriteFile();
-        SelectAlphabet.setAlphabetLanguage();
-        caesarCodec(type, getKey(), isRegisterLetters(), getPathReadFile(), getPathWriteFile());
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println("sadasd");
-        System.out.println("sadasd");
-        setPathReadFile();
-    }
-}

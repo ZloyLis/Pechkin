@@ -40,6 +40,7 @@ public class OtherSymbols {
     }
 
     public static List<Character> getOtherAlphabet() {
+        createOtherSymbols();
         return otherAlphabet;
     }
 }
