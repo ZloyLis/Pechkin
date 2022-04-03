@@ -58,7 +58,7 @@ public class ConsoleOut {
                     }
                     case 4 -> {
                         System.out.println("---");
-                        CaesarCodec.caesarCodec(Algorithms.DECODE_BRUTEFORCE);
+                        CaesarCodec.bruteForce(Algorithms.DECODE_BRUTEFORCE, 0);
                     }
 
                     default -> throw new Exception();
