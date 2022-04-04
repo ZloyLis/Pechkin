@@ -1,4 +1,5 @@
 
+import cryptors.Bruteforce;
 import cryptors.CaesarCoder;
 import services_file.Algorithms;
 
@@ -27,13 +28,11 @@ public class ConsoleOut {
 
         System.out.println("Выберите операцию:");
         pauseOut(700);
-        System.out.println("1. Шифрование из консоли(в файл):");
+        System.out.println("1. Шифрование файла");
         pauseOut(200);
-        System.out.println("2. Шифрование файла");
+        System.out.println("2. Дешифровка файла через ключ");
         pauseOut(200);
-        System.out.println("3. Дешифровка файла через ключ");
-        pauseOut(200);
-        System.out.println("4. Дешифровка файла через BruteForce");
+        System.out.println("3. Дешифровка файла через BruteForce");
         pauseOut(200);
         System.out.println();
         pauseOut(200);
@@ -45,21 +44,20 @@ public class ConsoleOut {
                 switch (Integer.parseInt(scanner.nextLine())) {
 
                     case 1 -> {
-                        System.out.println("1");
-                    }
-                    case 2 -> {
                         System.out.println("---");
                         System.out.println("Операция: шифрование файла.");
                         CaesarCoder.caesarCoder(Algorithms.CAESAR_CODER);
                     }
-                    case 3 -> {
+                    case 2 -> {
                         System.out.println("---");
+                        System.out.println("Операция: расшифровка с помощью ключа.");
                         CaesarCoder.caesarCoder(Algorithms.CAESAR_DECODER);
                     }
-                    /*case 4 -> {
+                    case 3 -> {
                         System.out.println("---");
-                        Bruteforce.
-                    }*/
+                        System.out.println("Операция: перебор шифра.");
+                        Bruteforce.bruteForce();
+                    }
 
                     default -> throw new Exception();
 
