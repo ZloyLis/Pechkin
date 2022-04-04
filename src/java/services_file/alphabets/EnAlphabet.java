@@ -1,10 +1,9 @@
-package com.zloylis.service.alphabets;
+package services_file.alphabets;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EnAlphabet {
-
     private static final List<Character> alphabet = new ArrayList<>();
     private static final char[] enAlphabet = enAlphabetChar();
 
@@ -16,7 +15,6 @@ public class EnAlphabet {
         for (char c = '\u0061'; c <= '\u007a'; c++) {
             alphabet.add(c);
         }
-        alphabet.addAll(OtherSymbols.getOtherAlphabet());
     }
 
     // перегоняем английский алфавит в массив char'ов

@@ -1,10 +1,9 @@
-package com.zloylis.service.alphabets;
+package services_file.alphabets;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RuAlphabet {
-
     private static final List<Character> alphabet = new ArrayList<>();
     private static final char[] ruAlphabet = ruAlphabetChar();
 
@@ -21,7 +20,6 @@ public class RuAlphabet {
                 alphabet.add(c);
             }
         }
-        alphabet.addAll(OtherSymbols.getOtherAlphabet());
     }
 
     // перегоняем русский алфавит в массив char'ов
@@ -38,5 +36,4 @@ public class RuAlphabet {
     public static char[] getRuAlphabet() {
         return ruAlphabet;
     }
-
 }
